@@ -1,0 +1,112 @@
+.page { display: flex; flex-direction: column; gap: 32px; }
+
+.pageHeader {
+  display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+
+.pageTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.8rem; font-weight: 700;
+  color: #f8fafc; letter-spacing: -0.02em; margin-bottom: 4px;
+}
+
+.pageSubtitle { color: #64748b; font-size: 0.9rem; }
+
+.headerTime {
+  font-size: 0.82rem; color: #475569;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 8px 14px; border-radius: 8px;
+  white-space: nowrap;
+}
+
+/* Stats */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.statCard {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.25s ease;
+}
+.statCard:hover { border-color: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+.statTop { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+
+.statIcon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+
+.statValue {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.2rem; font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.statLabel { font-weight: 600; font-size: 0.9rem; color: #94a3b8; margin-bottom: 4px; }
+.statSub { font-size: 0.78rem; color: #475569; }
+
+/* Sections */
+.section {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.sectionHeader {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem; font-weight: 700; color: #f8fafc;
+}
+
+/* Messages */
+.messageList { display: flex; flex-direction: column; gap: 0; }
+
+.messageItem {
+  display: flex; align-items: flex-start; gap: 14; padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  gap: 14px;
+  transition: all 0.2s;
+}
+.messageItem:last-child { border-bottom: none; }
+.messageItem:hover { background: rgba(255,255,255,0.02); margin: 0 -12px; padding: 16px 12px; border-radius: 8px; }
+
+.unread { background: rgba(99,102,241,0.04); }
+
+.messageAvatar {
+  width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.9rem; color: white;
+}
+
+.messageName {
+  font-weight: 600; font-size: 0.9rem; color: #f8fafc;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 2px;
+}
+
+.unreadDot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #6366f1; flex-shrink: 0;
+}
+
+.messageEmail { font-size: 0.78rem; color: #475569; margin-bottom: 4px; }
+.messageText { font-size: 0.83rem; color: #64748b; line-height: 1.5; }
+.messageTime { font-size: 0.75rem; color: #475569; white-space: nowrap; flex-shrink: 0; }
+
+.emptyState {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 48px 0; color: #475569; font-size: 0.9rem; text-align: center;
+}
