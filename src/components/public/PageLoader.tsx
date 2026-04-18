@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react';
  * PageLoader — a full-screen cyberpunk boot/loading sequence shown
  * for ~1.8s on first page load, then fades out to reveal the site.
  */
-export default function PageLoader() {
+export default function PageLoader({ isDataLoaded = true, onFade }: { isDataLoaded?: boolean, onFade?: () => void }) {
   const [phase, setPhase] = useState<'boot' | 'fade' | 'done'>('boot');
   const [progress, setProgress] = useState(0);
   const [lines, setLines] = useState<string[]>([]);
+  const [timerReady, setTimerReady] = useState(false);
 
   const BOOT_LINES = [
     'INITIALIZING NEURAL INTERFACE...',
@@ -21,7 +22,6 @@ export default function PageLoader() {
 
   useEffect(() => {
     let prog = 0;
-    let lineIdx = 0;
 
     // Tick progress bar
     const progInterval = setInterval(() => {
@@ -35,18 +35,28 @@ export default function PageLoader() {
       setTimeout(() => setLines(prev => [...prev, line]), i * 320 + 200)
     );
 
-    // Start fade after boot sequence
-    const fadeTimer = setTimeout(() => setPhase('fade'), 1900);
-    const doneTimer = setTimeout(() => setPhase('done'), 2500);
+    // Minimum boot time before fading
+    const timer = setTimeout(() => setTimerReady(true), 1900);
 
     return () => {
       clearInterval(progInterval);
       lineTimers.forEach(clearTimeout);
-      clearTimeout(fadeTimer);
-      clearTimeout(doneTimer);
+      clearTimeout(timer);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (timerReady && isDataLoaded && phase === 'boot') {
+      setPhase('fade');
+      if (onFade) {
+        // Trigger the home page animation slightly after the wipe starts for impact
+        setTimeout(onFade, 150); 
+      }
+      const doneTimer = setTimeout(() => setPhase('done'), 1000);
+      return () => clearTimeout(doneTimer);
+    }
+  }, [timerReady, isDataLoaded, phase, onFade]);
 
   if (phase === 'done') return null;
 
@@ -59,9 +69,14 @@ export default function PageLoader() {
         alignItems: 'center', justifyContent: 'center',
         background: 'radial-gradient(ellipse at center, #0a0a1a 0%, #000308 100%)',
         backdropFilter: 'blur(30px)',
-        transition: phase === 'fade' ? 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
-        opacity: phase === 'fade' ? 0 : 1,
-        transform: phase === 'fade' ? 'scale(1.05)' : 'scale(1)',
+        transition: phase === 'fade' 
+          ? 'clip-path 0.75s cubic-bezier(0.8, 0, 0.2, 1), transform 0.8s cubic-bezier(0.8, 0, 0.2, 1)' 
+          : 'none',
+        clipPath: phase === 'fade' 
+          ? 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)' 
+          : 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        opacity: 1,
+        transform: phase === 'fade' ? 'translateY(-2vh) scale(1.02)' : 'translateY(0) scale(1)',
         pointerEvents: phase === 'fade' ? 'none' : 'all',
       }}
     >

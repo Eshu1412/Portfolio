@@ -49,21 +49,21 @@ const DEFAULT_PROFILE: Profile = {
     'React · Next.js · Node.js Engineer',
     'Building immersive digital experiences',
   ],
-  bio: ' ',
-  email: ' ',
+  bio: 'I build immersive, performant web experiences that live at the intersection of engineering and design. From 3D WebGL interfaces to scalable backends.',
+  email: 'mauryatushar115@gmail.com',
   phone: '',
   whatsapp: '',
-  github: ' ',
+  github: 'https://github.com/mauryatushar115',
   linkedin: '',
   twitter: '',
-  location: ' ',
+  location: 'India',
   resume_url: '',
-  status: ' ',
-  focus: ' ',
-  superpower: ' ',
-  projects_built: ' ',
-  technologies: '',
-  experience: ' ',
+  status: 'Open to Work',
+  focus: 'Full Stack + 3D Web',
+  superpower: 'Turning ideas → products',
+  projects_built: '5+',
+  technologies: '15+',
+  experience: '2+',
 };
 
 function splitName(fullName: string) {
@@ -73,6 +73,8 @@ function splitName(fullName: string) {
 
 export default function HomePage() {
   const [profile, setProfile] = useState<Profile>(DEFAULT_PROFILE);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [appReady, setAppReady] = useState(false);
   const typedTagline = useTypewriter(
     profile.hero_roles.length ? profile.hero_roles : DEFAULT_PROFILE.hero_roles,
     { typeSpeed: 52, deleteSpeed: 28, pauseDelay: 2200 },
@@ -91,8 +93,9 @@ export default function HomePage() {
               : DEFAULT_PROFILE.hero_roles,
           });
         }
+        setIsDataLoaded(true);
       })
-      .catch(() => { });
+      .catch(() => { setIsDataLoaded(true); });
   }, []);
 
   const { first, rest } = splitName(profile.full_name);
@@ -124,7 +127,7 @@ export default function HomePage() {
 
   return (
     <>
-      <PageLoader />
+      <PageLoader isDataLoaded={isDataLoaded} onFade={() => setAppReady(true)} />
       <CursorGlow />
       <ScrollNavigator />
       <Navbar />
@@ -135,7 +138,7 @@ export default function HomePage() {
           <HeroScene />
         </div>
 
-        <div className={`container ${styles.heroContent}`}>
+        <div className={`container ${styles.heroContent} ${appReady ? styles.ready : ''}`}>
           {/* Status tag */}
           <div className={styles.heroTag}>
             <span className={styles.heroTagDot} />

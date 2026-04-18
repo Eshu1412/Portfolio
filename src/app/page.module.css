@@ -91,6 +91,9 @@
   text-transform: uppercase;
   margin-bottom: 32px;
   clip-path: polygon(7px 0%, 100% 0%, calc(100% - 7px) 100%, 0% 100%);
+  opacity: 0;
+}
+.ready .heroTag {
   animation: fadeInUp 0.7s ease both;
 }
 
@@ -128,12 +131,15 @@
   letter-spacing: 0.08em;
   margin-bottom: 24px;
   text-transform: uppercase;
-  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both;
   z-index: 5;
   display: flex;
   flex-wrap: wrap;
   column-gap: 28px;
   row-gap: 4px;
+  opacity: 0;
+}
+.ready .heroTitle {
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both;
 }
 
 /* Ambient backlight for the title */
@@ -154,8 +160,10 @@
 .heroName {
   color: #ffffff;
   display: block;
-  animation: glitchText 9s ease-in-out infinite;
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 50px rgba(0, 245, 255, 0.25);
+}
+.ready .heroName {
+  animation: glitchText 9s ease-in-out infinite;
 }
 
 .heroLastName {
@@ -187,9 +195,12 @@
     inset 0 0 40px rgba(0, 245, 255, 0.08);
   clip-path: polygon(18px 0%, 100% 0%, calc(100% - 18px) 100%, 0% 100%);
   backdrop-filter: blur(16px);
-  animation: fadeInUp 0.7s ease 0.18s both;
   position: relative;
   overflow: hidden;
+  opacity: 0;
+}
+.ready .heroRoleShell {
+  animation: fadeInUp 0.7s ease 0.18s both;
 }
 
 .heroRoleShell::after {
@@ -197,8 +208,10 @@
   position: absolute;
   top: 0; left: -100%; width: 50%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.25), transparent);
-  animation: shellScan 4s infinite linear;
   pointer-events: none;
+}
+.ready .heroRoleShell::after {
+  animation: shellScan 4s infinite linear;
 }
 
 @keyframes shellScan {
@@ -213,10 +226,13 @@
   letter-spacing: 0.28em;
   text-transform: uppercase;
   margin-bottom: 0px; 
-  animation: fadeInUp 0.7s ease 0.2s both;
   text-shadow: 0 0 10px rgba(0, 245, 255, 0.8), 0 0 20px rgba(0, 245, 255, 0.4);
   position: relative;
   z-index: 2;
+  opacity: 0;
+}
+.ready .heroRole {
+  animation: fadeInUp 0.7s ease 0.2s both;
 }
 
 .heroRolePrefix {
@@ -226,6 +242,8 @@
   font-weight: 900;
   text-shadow: 0 0 15px rgba(191, 0, 255, 0.8), 0 0 30px rgba(191, 0, 255, 0.5);
   display: inline-block;
+}
+.ready .heroRolePrefix {
   animation: pulsePrefix 2.5s ease-in-out infinite;
 }
 
@@ -240,8 +258,10 @@
   color: #00ff88;
   font-weight: 900;
   margin-left: 8px;
-  animation: caretBlink 0.85s step-end infinite;
   text-shadow: 0 0 15px rgba(0, 255, 136, 0.9), 0 0 30px rgba(0, 255, 136, 0.4);
+}
+.ready .heroRoleCursor {
+  animation: caretBlink 0.85s step-end infinite;
 }
 
 @keyframes caretBlink {
@@ -266,9 +286,12 @@
     0 15px 35px rgba(0, 0, 0, 0.6), 
     inset 20px 0 40px -15px rgba(0, 245, 255, 0.15);
   clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
-  animation: fadeInUp 0.7s ease 0.3s both;
   backdrop-filter: blur(12px);
   text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+  opacity: 0;
+}
+.ready .heroDesc {
+  animation: fadeInUp 0.7s ease 0.3s both;
 }
 
 .heroDesc::before {
@@ -288,6 +311,9 @@
   gap: 14px;
   max-width: 720px;
   margin-bottom: 42px;
+  opacity: 0;
+}
+.ready .heroSignals {
   animation: fadeInUp 0.7s ease 0.36s both;
 }
 
@@ -325,6 +351,9 @@
   gap: 20px;
   flex-wrap: wrap;
   margin-bottom: 80px;
+  opacity: 0;
+}
+.ready .heroCta {
   animation: fadeInUp 0.7s ease 0.4s both;
 }
 
@@ -332,11 +361,14 @@
 .heroStats {
   display: flex;
   gap: 0;
-  animation: fadeInUp 0.7s ease 0.55s both;
   border: 1px solid rgba(0, 245, 255, 0.1);
   clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
   overflow: hidden;
   width: fit-content;
+  opacity: 0;
+}
+.ready .heroStats {
+  animation: fadeInUp 0.7s ease 0.55s both;
 }
 
 .heroStat {
@@ -395,8 +427,11 @@
   font-size: 0.6rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  animation: fadeIn 1.2s ease 1.4s both;
   z-index: 3;
+  opacity: 0;
+}
+.ready .heroScroll {
+  animation: fadeIn 1.2s ease 1.4s both;
 }
 
 .heroScrollLine {
@@ -646,6 +681,20 @@
 
   .heroTitle {
     font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+
+  .heroRoleShell {
+    padding: 12px 16px;
+    width: auto;
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+
+  .heroRole {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: clamp(0.7rem, 4vw, 0.9rem);
+    line-height: 1.5;
   }
 
   .heroCta {
