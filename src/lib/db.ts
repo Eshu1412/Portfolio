@@ -101,6 +101,10 @@ export async function initSchema() {
     { name: 'projects_built', def: "TEXT DEFAULT '5+'" },
     { name: 'technologies', def: "TEXT DEFAULT '15+'" },
     { name: 'experience', def: "TEXT DEFAULT '2+'" },
+    { name: 'projects_title', def: "TEXT DEFAULT 'Projects'" },
+    { name: 'projects_subtitle', def: "TEXT DEFAULT 'A selection of things I''ve built — from full-stack apps to 3D immersive experiences.'" },
+    { name: 'skills_title', def: "TEXT DEFAULT 'Skills & Tech'" },
+    { name: 'skills_subtitle', def: "TEXT DEFAULT 'My technical arsenal and creative toolkit.'" },
   ];
 
   for (const col of profileCols) {

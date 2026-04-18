@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import AdminShell from '@/components/admin/AdminShell';
 import toast from 'react-hot-toast';
+import styles from '../admin.module.css';
 
 interface Project {
   id: number;
@@ -183,7 +184,7 @@ export default function AdminProjectsPage() {
         </div>
 
         {/* Table */}
-        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, overflow: 'hidden' }}>
+        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }}>
           {loading ? (
             <div style={{ padding: '60px', textAlign: 'center', color: '#475569' }}>Loading...</div>
           ) : projects.length === 0 ? (
@@ -192,13 +193,11 @@ export default function AdminProjectsPage() {
               <p>No projects yet. Add your first one!</p>
             </div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <table className={styles.responsiveTable}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                <tr>
                   {['Project', 'Status', 'Featured', 'Tech Stack', 'Actions'].map(h => (
-                    <th key={h} style={{ padding: '14px 20px', textAlign: 'left', fontSize: '0.72rem', fontWeight: 600, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                      {h}
-                    </th>
+                    <th key={h}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -210,32 +209,36 @@ export default function AdminProjectsPage() {
                     onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
                     onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                   >
-                    <td style={{ padding: '16px 20px' }}>
-                      <div style={{ fontWeight: 600, fontSize: '0.9rem', color: '#f8fafc', marginBottom: 2 }}>{p.title}</div>
-                      <div style={{ fontSize: '0.78rem', color: '#475569' }}>
-                        {p.description.slice(0, 60)}{p.description.length > 60 ? '…' : ''}
+                    <td data-label="Project">
+                      <div className={styles.tdContent}>
+                        <div style={{ fontWeight: 600, fontSize: '0.9rem', color: '#f8fafc', marginBottom: 2 }}>{p.title}</div>
+                        <div style={{ fontSize: '0.78rem', color: '#475569' }}>
+                          {p.description.slice(0, 60)}{p.description.length > 60 ? '…' : ''}
+                        </div>
                       </div>
                     </td>
-                    <td style={{ padding: '16px 20px' }}>
+                    <td data-label="Status">
                       <span className={`badge badge-${p.status}`}>{p.status.replace('_', ' ')}</span>
                     </td>
-                    <td style={{ padding: '16px 20px', color: p.featured ? '#f59e0b' : '#475569' }}>
+                    <td data-label="Featured" style={{ color: p.featured ? '#f59e0b' : '#475569' }}>
                       {p.featured ? '⭐' : '—'}
                     </td>
-                    <td style={{ padding: '16px 20px' }}>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                        {p.tech_stack.slice(0, 3).map(t => (
-                          <span key={t} style={{ padding: '2px 8px', borderRadius: 9999, background: 'rgba(255,255,255,0.05)', fontSize: '0.72rem', color: '#94a3b8', fontFamily: "'JetBrains Mono', monospace" }}>
-                            {t}
-                          </span>
-                        ))}
-                        {p.tech_stack.length > 3 && (
-                          <span style={{ fontSize: '0.72rem', color: '#475569' }}>+{p.tech_stack.length - 3}</span>
-                        )}
+                    <td data-label="Tech Stack">
+                      <div className={styles.tdContent}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                          {p.tech_stack.slice(0, 3).map(t => (
+                            <span key={t} style={{ padding: '2px 8px', borderRadius: 9999, background: 'rgba(255,255,255,0.05)', fontSize: '0.72rem', color: '#94a3b8', fontFamily: "'JetBrains Mono', monospace" }}>
+                              {t}
+                            </span>
+                          ))}
+                          {p.tech_stack.length > 3 && (
+                            <span style={{ fontSize: '0.72rem', color: '#475569' }}>+{p.tech_stack.length - 3}</span>
+                          )}
+                        </div>
                       </div>
                     </td>
-                    <td style={{ padding: '16px 20px' }}>
-                      <div style={{ display: 'flex', gap: 8 }}>
+                    <td data-label="Actions">
+                      <div className={styles.tableCellAction} style={{ display: 'flex', gap: 8 }}>
                         <button className="btn btn-ghost btn-sm" onClick={() => openEdit(p)}>Edit</button>
                         <button
                           onClick={() => askDelete(p.id, p.title)}
@@ -263,23 +266,23 @@ export default function AdminProjectsPage() {
       {/* Add/Edit Project Modal */}
       {modalOpen && (
         <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}
+          className={styles.modalOverlay}
           onClick={e => { if (e.target === e.currentTarget) setModalOpen(false); }}
         >
-          <div style={{ background: '#0d1117', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '32px', width: '100%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', fontWeight: 700, color: '#f8fafc', marginBottom: 24 }}>
+          <div className={styles.modalContent}>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.2rem', fontWeight: 700, color: '#f8fafc', marginBottom: 14 }}>
               {editing ? 'Edit Project' : 'New Project'}
             </h2>
-            <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <form id="project-form" onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Title *</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#94a3b8', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Title *</label>
                 <input className="input" value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} required placeholder="My Awesome Project" />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Description</label>
-                <textarea className="input" value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))} placeholder="What does this project do?" rows={4} />
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#94a3b8', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Description</label>
+                <textarea className="input" value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))} placeholder="What does this project do?" rows={2} />
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Status</label>
                   <select className="input" value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))} style={{ cursor: 'pointer' }}>
@@ -322,7 +325,7 @@ export default function AdminProjectsPage() {
                   ))}
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>GitHub URL</label>
                   <input className="input" type="url" value={form.github_url} onChange={e => setForm(p => ({ ...p, github_url: e.target.value }))} placeholder="https://github.com/..." />
@@ -340,7 +343,7 @@ export default function AdminProjectsPage() {
                 />
                 Featured project (shown prominently)
               </label>
-              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 8, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 12, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)', paddingBottom: 8 }}>
                 <button type="button" className="btn btn-ghost" onClick={() => setModalOpen(false)}>Cancel</button>
                 <button type="submit" className="btn btn-primary" disabled={saving} id="save-project-btn">
                   {saving ? 'Saving...' : editing ? 'Update Project' : 'Create Project'}

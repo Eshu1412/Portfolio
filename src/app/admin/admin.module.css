@@ -110,3 +110,49 @@
   display: flex; flex-direction: column; align-items: center; gap: 12px;
   padding: 48px 0; color: #475569; font-size: 0.9rem; text-align: center;
 }
+
+/* Responsive Table */
+.responsiveTable { width: 100%; border-collapse: collapse; }
+.responsiveTable th { padding: 14px 20px; text-align: left; font-size: 0.72rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.responsiveTable td { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.responsiveTable tr:last-child td { border-bottom: none; }
+.responsiveTable td::before { display: none; }
+
+@media (max-width: 768px) {
+  .responsiveTable, .responsiveTable tbody, .responsiveTable tr, .responsiveTable td { display: block; width: 100%; }
+  .responsiveTable thead { display: none; }
+  .responsiveTable tr { 
+    margin-bottom: 16px; 
+    background: rgba(255,255,255,0.02); 
+    border: 1px solid rgba(255,255,255,0.06); 
+    border-radius: 12px; 
+    padding: 16px;
+    transition: all 0.2s;
+  }
+  .responsiveTable td { border: none !important; padding: 6px 0 !important; display: flex; flex-direction: column; gap: 4px; }
+  .responsiveTable td::before { 
+    content: attr(data-label); display: block; font-weight: 600; color: #94a3b8; 
+    font-size: 0.72rem; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.05em;
+  }
+  .tableCellAction { display: flex; gap: 8px; justify-content: flex-start; margin-top: 10px; }
+}
+
+/* Responsive Modals */
+.modalOverlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 100;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 20px;
+}
+.modalOverlay::after {
+  content: ""; display: block; height: 100px; width: 100%; flex-shrink: 0;
+}
+.modalContent {
+  background: #0d1117; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+  padding: 24px; width: 100%; max-width: 700px;
+  margin: 4vh auto;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 600px) {
+  .modalContent { padding: 20px; border-radius: 16px; margin: 10px auto; }
+}

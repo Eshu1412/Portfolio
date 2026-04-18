@@ -48,6 +48,10 @@ interface ProfileState {
   linkedin: string;
   twitter: string;
   resume_url: string;
+  projects_title: string;
+  projects_subtitle: string;
+  skills_title: string;
+  skills_subtitle: string;
 }
 
 const EMPTY_PROFILE: ProfileState = {
@@ -69,6 +73,10 @@ const EMPTY_PROFILE: ProfileState = {
   linkedin: '',
   twitter: '',
   resume_url: '',
+  projects_title: 'Projects',
+  projects_subtitle: "A selection of things I've built — from full-stack apps to 3D immersive experiences.",
+  skills_title: 'Skills & Tech',
+  skills_subtitle: 'My technical arsenal and creative toolkit.',
 };
 
 export default function AdminSettingsPage() {
@@ -264,6 +272,33 @@ export default function AdminSettingsPage() {
                   <div>
                     <label style={labelStyle}>⏱️ Yrs Experience</label>
                     <input style={inputStyle} value={profile.experience || ''} onChange={set('experience')} placeholder="2+" />
+                  </div>
+                </div>
+              </div>
+
+              {/* ── Section Titles ───────────────────── */}
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 20 }}>
+                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#6366f1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 16 }}>
+                  Section Titles & Descriptions
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, marginBottom: 18 }}>
+                  <div>
+                    <label style={labelStyle}>Projects Section Title</label>
+                    <input style={inputStyle} value={profile.projects_title || ''} onChange={set('projects_title')} placeholder="Projects" />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Skills Section Title</label>
+                    <input style={inputStyle} value={profile.skills_title || ''} onChange={set('skills_title')} placeholder="Skills & Tech" />
+                  </div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <div>
+                    <label style={labelStyle}>Projects Subtitle</label>
+                    <textarea style={{ ...inputStyle, minHeight: 60, resize: 'vertical' }} value={profile.projects_subtitle || ''} onChange={set('projects_subtitle')} placeholder="A selection of things I've built..." />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Skills Subtitle</label>
+                    <textarea style={{ ...inputStyle, minHeight: 60, resize: 'vertical' }} value={profile.skills_subtitle || ''} onChange={set('skills_subtitle')} placeholder="My technical arsenal..." />
                   </div>
                 </div>
               </div>

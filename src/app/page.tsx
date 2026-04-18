@@ -336,8 +336,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <SkillsSection />
-      <ProjectsSection />
+      <SkillsSection profile={profile} />
+      <ProjectsSection profile={profile} />
       <ContactSection profile={profile} />
       <Footer profile={profile} />
     </>

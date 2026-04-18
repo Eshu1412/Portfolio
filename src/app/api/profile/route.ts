@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import getDb from '@/lib/db';
+import getDb, { initSchema } from '@/lib/db';
 import { requireAuth } from '@/lib/auth';
 
 function parseHeroRoles(heroRoles: unknown) {
@@ -38,6 +38,7 @@ function normalizeProfile(profile: Record<string, unknown> | undefined) {
 
 export async function GET() {
   const db = getDb();
+  await initSchema(); // Lazy migration check
   const result = await db.execute('SELECT * FROM profile LIMIT 1');
   const profile = result.rows[0];
   return NextResponse.json(normalizeProfile(profile as Record<string, unknown> | undefined));
@@ -48,12 +49,14 @@ export async function PATCH(request: NextRequest) {
   if (!auth) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const db = getDb();
+  await initSchema(); // Lazy migration check
   const body = await request.json();
   const {
     full_name, tagline, hero_roles, bio, avatar_url, resume_url,
     github, linkedin, twitter, email, location,
     phone, whatsapp, status, focus, superpower,
     projects_built, technologies, experience,
+    projects_title, projects_subtitle, skills_title, skills_subtitle
   } = body;
 
   const existingResult = await db.execute('SELECT * FROM profile LIMIT 1');
@@ -70,6 +73,7 @@ export async function PATCH(request: NextRequest) {
           github = ?, linkedin = ?, twitter = ?, email = ?, phone = ?, whatsapp = ?, location = ?,
           status = ?, focus = ?, superpower = ?,
           projects_built = ?, technologies = ?, experience = ?,
+          projects_title = ?, projects_subtitle = ?, skills_title = ?, skills_subtitle = ?,
           updated_at = unixepoch()
         WHERE id = ?
       `,
@@ -93,6 +97,10 @@ export async function PATCH(request: NextRequest) {
         projects_built  ?? existing.projects_built,
         technologies    ?? existing.technologies,
         experience      ?? existing.experience,
+        projects_title  ?? existing.projects_title,
+        projects_subtitle ?? existing.projects_subtitle,
+        skills_title    ?? existing.skills_title,
+        skills_subtitle ?? existing.skills_subtitle,
         existing.id,
       ]
     });
@@ -100,13 +108,14 @@ export async function PATCH(request: NextRequest) {
     await db.execute({
       sql: `
         INSERT INTO profile
-          (full_name, tagline, hero_roles, bio, avatar_url, resume_url, github, linkedin, twitter, email, phone, whatsapp, location, status, focus, superpower, projects_built, technologies, experience)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          (full_name, tagline, hero_roles, bio, avatar_url, resume_url, github, linkedin, twitter, email, phone, whatsapp, location, status, focus, superpower, projects_built, technologies, experience, projects_title, projects_subtitle, skills_title, skills_subtitle)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
       args: [
         full_name, tagline, serializedHeroRoles, bio, avatar_url, resume_url,
         github, linkedin, twitter, email, phone, whatsapp, location,
         status, focus, superpower, projects_built, technologies, experience,
+        projects_title, projects_subtitle, skills_title, skills_subtitle,
       ]
     });
   }

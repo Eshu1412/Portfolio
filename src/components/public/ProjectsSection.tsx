@@ -59,7 +59,7 @@ const THEME_META: Record<string, { accent: string; accentSoft: string; glow: str
   },
 };
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ profile }: { profile?: any }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
@@ -124,10 +124,10 @@ export default function ProjectsSection() {
             Portfolio
           </div>
           <h2 className="section-title">
-            Featured <span className="text-gradient">Projects</span>
+            {profile?.projects_title ? profile.projects_title : <>Featured <span className="text-gradient">Projects</span></>}
           </h2>
           <p className="section-subtitle">
-            A selection of things I&apos;ve built — from full-stack apps to 3D immersive experiences
+            {profile?.projects_subtitle || "A selection of things I've built — from full-stack apps to 3D immersive experiences"}
           </p>
         </Reveal>
 

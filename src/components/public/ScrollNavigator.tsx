@@ -63,17 +63,14 @@ export default function ScrollNavigator() {
 
     const observer = new IntersectionObserver(
       entries => {
-        const visible = entries
-          .filter(entry => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visible?.target.id) {
-          setActiveSection(visible.target.id);
+        const entering = entries.find(entry => entry.isIntersecting);
+        if (entering?.target.id) {
+          setActiveSection(entering.target.id);
         }
       },
       {
-        threshold: [0.2, 0.35, 0.55, 0.75],
-        rootMargin: '-18% 0px -28% 0px',
+        threshold: 0,
+        rootMargin: '-40% 0px -40% 0px',
       },
     );
 
@@ -279,27 +276,26 @@ export default function ScrollNavigator() {
       <AnimatePresence mode="wait">
         <motion.div
           key={`label-${activeMeta.id}`}
-          initial={{ opacity: 0, y: 18, filter: 'blur(8px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: -12, filter: 'blur(8px)' }}
+          initial={{ opacity: 0, y: 18, x: '-50%', filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, x: '-50%', filter: 'blur(0px)' }}
+          exit={{ opacity: 0, y: -12, x: '-50%', filter: 'blur(8px)' }}
           transition={{ duration: 0.35 }}
           style={{
             position: 'fixed',
             left: '50%',
             bottom: 24,
-            transform: 'translateX(-50%)',
             zIndex: 12,
-            padding: '10px 16px',
+            padding: '12px 24px',
             borderRadius: 999,
-            border: `1px solid ${activeMeta.accent}33`,
-            background: 'rgba(5, 10, 24, 0.8)',
-            color: '#dff0ff',
+            border: `1px solid ${activeMeta.accent}66`,
+            background: 'linear-gradient(180deg, rgba(5,10,24,0.7), rgba(5,10,24,0.9))',
+            color: '#f8fafc',
             fontFamily: "'Share Tech Mono', monospace",
-            fontSize: '0.62rem',
-            letterSpacing: '0.18em',
+            fontSize: '0.75rem',
+            letterSpacing: '0.22em',
             textTransform: 'uppercase',
-            backdropFilter: 'blur(12px)',
-            boxShadow: `0 0 30px ${activeMeta.accent}18`,
+            backdropFilter: 'blur(16px)',
+            boxShadow: `0 0 40px ${activeMeta.accent}33, inset 0 1px 0 ${activeMeta.accent}44`,
             pointerEvents: 'none',
           }}
           className="scroll-nav-mobile"

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import AdminShell from '@/components/admin/AdminShell';
 import toast from 'react-hot-toast';
+import styles from '../admin.module.css';
 
 interface Skill {
   id: number;
@@ -257,21 +258,21 @@ export default function AdminSkillsPage() {
       {/* Add/Edit Modal */}
       {modalOpen && (
         <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}
+          className={styles.modalOverlay}
           onClick={e => { if (e.target === e.currentTarget) setModalOpen(false); }}
         >
-          <div style={{ background: '#0d1117', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 460 }}>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', fontWeight: 700, color: '#f8fafc', marginBottom: 24 }}>
+          <div className={styles.modalContent} style={{ maxWidth: 460 }}>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', fontWeight: 700, color: '#f8fafc', marginBottom: 20 }}>
               {editing ? 'Edit Skill' : 'Add Skill'}
             </h2>
-            <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <form id="skill-form" onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   Skill Name *
                 </label>
                 <input className="input" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} required placeholder="React.js" />
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Category</label>
                   <select className="input" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} style={{ cursor: 'pointer' }}>
@@ -289,7 +290,7 @@ export default function AdminSkillsPage() {
                   />
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Icon Key</label>
                   <input className="input" value={form.icon} onChange={e => setForm(p => ({ ...p, icon: e.target.value }))} placeholder="react, nodejs..." />
@@ -299,7 +300,7 @@ export default function AdminSkillsPage() {
                   <input type="number" className="input" value={form.display_order} onChange={e => setForm(p => ({ ...p, display_order: +e.target.value }))} min={0} />
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 8, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 12, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                 <button type="button" className="btn btn-ghost" onClick={() => setModalOpen(false)}>Cancel</button>
                 <button type="submit" className="btn btn-primary" disabled={saving} id="save-skill-btn">
                   {saving ? 'Saving...' : editing ? 'Update' : 'Add Skill'}

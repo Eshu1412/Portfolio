@@ -140,7 +140,7 @@ export default function AdminMessagesPage() {
         </div>
 
         {/* Inbox + Detail split */}
-        <div style={{ display: 'grid', gridTemplateColumns: selected ? '1fr 1fr' : '1fr', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: selected ? 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))' : '1fr', gap: 20 }}>
 
           {/* Inbox List */}
           <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, overflow: 'hidden' }}>

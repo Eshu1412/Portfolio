@@ -27,7 +27,7 @@ const SKILL_ICONS: Record<string, string> = {
   mongodb: '●', sqlite: '◫', docker: '◻', git: '⬡', webgl: '◆',
 };
 
-export default function SkillsSection() {
+export default function SkillsSection({ profile }: { profile?: any }) {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [activeCategory, setActiveCategory] = useState('All');
   const [loading, setLoading] = useState(true);
@@ -93,10 +93,10 @@ export default function SkillsSection() {
             Technical Arsenal
           </div>
           <h2 className="section-title">
-            My <span className="text-gradient-cyber">Skill Matrix</span>
+            {profile?.skills_title ? profile.skills_title : <>My <span className="text-gradient-cyber">Skill Matrix</span></>}
           </h2>
           <p className="section-subtitle">
-            Technologies and tools loaded in my combat-ready development loadout
+            {profile?.skills_subtitle || "Technologies and tools loaded in my combat-ready development loadout"}
           </p>
         </Reveal>
 
